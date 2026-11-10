@@ -1,0 +1,11 @@
+/* Vanerum-fonts. Neue Montreal = huisletter (vanerum.nl). Montserrat = tagline in het logo. Black Mango = sierletter, alleen op verzoek. */
+@font-face{font-family:"Neue Montreal";src:url("NeueMontreal-Regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Neue Montreal";src:url("NeueMontreal-Bold.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Montserrat";src:url("Montserrat-Regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Montserrat";src:url("Montserrat-Italic.woff2") format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Montserrat";src:url("Montserrat-Medium.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Montserrat";src:url("Montserrat-SemiBold.woff2") format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Montserrat";src:url("Montserrat-Bold.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Black Mango";src:url("BlackMango-Regular.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Black Mango";src:url("BlackMango-Medium.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:"Black Mango";src:url("BlackMango-Bold.woff2") format("woff2");font-weight:700;font-style:normal;font-display:swap}

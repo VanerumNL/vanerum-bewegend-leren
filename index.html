@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Agili en Motion Cubes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" href="img/icoon.png">
+<link rel="stylesheet" href="fonts/vanerum-fonts.css">
+<style>
+/* Layout: zwarte Vanerum-kopbalk, een lichtblauw podium waarop Vimo het gesprek opent, daarna per product een rustige sectie en een demolaag die schermvullend opent. */
+:root{
+  --geel:#fbb900; --zwart:#1e1e1e; --wit:#ffffff; --grijs:#f4f4f2; --antraciet:#2e3033;
+  --blauw:#b8e7f9; --lila:#bda8bd; --groen:#a8cb67;
+  --bg:#ffffff; --fg:#1e1e1e; --zacht:#55554f; --paneel:#f4f4f2; --lijn:rgba(30,30,30,.14);
+  --podium:linear-gradient(180deg,#dcf1f9 0%,#eef8fc 55%,#f7fbfc 100%);
+  --font:"Neue Montreal",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1e1e1e; --fg:#ffffff; --zacht:#c9c9c3; --paneel:#2a2b2e; --lijn:rgba(255,255,255,.16);
+  --podium:linear-gradient(180deg,#24333a 0%,#22292d 60%,#1e1e1e 100%); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1e1e1e; --fg:#ffffff; --zacht:#c9c9c3; --paneel:#2a2b2e; --lijn:rgba(255,255,255,.16);
+  --podium:linear-gradient(180deg,#24333a 0%,#22292d 60%,#1e1e1e 100%); color-scheme:dark}
+html{font-size:16px}
+html.presentatie{font-size:clamp(14px,1.9vh,26px)}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);letter-spacing:.03em;font-size:1rem;line-height:1.5;overflow-x:clip;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--zwart)}
+h1,h2,h3,h4{margin:0;font-weight:700;text-wrap:balance}
+p{margin:0}
+img{max-width:100%;display:block;height:auto}
+button{font:inherit;letter-spacing:inherit}
+:focus-visible{outline:3px solid var(--geel);outline-offset:3px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+@media(min-width:700px){.wrap{padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}}
+
+/* knoppen */
+.btn{display:inline-flex;align-items:center;gap:.5rem;justify-content:center;font-weight:700;font-size:1rem;padding:.8rem 1.3rem;min-height:3rem;border-radius:999px;border:2px solid currentColor;background:transparent;color:inherit;cursor:pointer;text-decoration:none}
+.btn.geel{background:var(--geel);border-color:var(--geel);color:var(--zwart)}
+.btn.geel:hover{background:#ffcb3a;border-color:#ffcb3a}
+.btn:hover{transform:translateY(-1px)}
+.knoppen{display:flex;flex-wrap:wrap;gap:.6rem}
+
+/* kopbalk */
+.kop{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--zwart);color:var(--wit)}
+.kop .wrap{display:flex;align-items:center;gap:1rem;min-height:4.2rem}
+.kop .logo{width:clamp(120px,16vw,170px)}
+.kop .streep{width:44px}
+.kop .sep{width:1px;align-self:stretch;margin:1rem 0;background:rgba(255,255,255,.25)}
+.kop .titel{font-weight:700;font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.kop nav{margin-left:auto;display:flex;gap:.3rem;align-items:center}
+.kop nav button{background:none;border:0;color:#dcdcd6;padding:.5rem .7rem;border-radius:999px;cursor:pointer;font-weight:400}
+.kop nav button:hover{color:var(--wit);background:rgba(255,255,255,.08)}
+.kop nav .pres{border:1.5px solid rgba(255,255,255,.35);color:var(--wit)}
+@media(max-width:900px){.kop nav .lnk{display:none}.kop .sep,.kop .titel{display:none}}
+
+/* hero met Vimo */
+.hero{background:var(--podium)}
+.hero .wrap{display:grid;gap:1.5rem;padding-block:clamp(1.5rem,4vw,3rem) 0;grid-template-columns:minmax(0,1fr);align-items:end}
+@media(min-width:900px){.hero .wrap{grid-template-columns:minmax(0,5fr) minmax(0,6fr)}}
+.hero .tekst{display:grid;gap:1.1rem;padding-bottom:clamp(1rem,4vw,3rem);min-width:0}
+.dealerchip{display:inline-flex;align-items:center;gap:.6rem;justify-self:start;background:var(--zwart);color:var(--wit);border-radius:999px;padding:.4rem .9rem .4rem .45rem;font-size:.9rem}
+.dealerchip .v{width:1.7rem;height:1.7rem;border-radius:50%;background:var(--geel);display:grid;place-items:center;color:var(--zwart);font-weight:700;font-size:.8rem}
+.dealerchip img{height:1.7rem;width:auto;border-radius:4px;background:#fff;padding:2px}
+.hero h1{font-size:clamp(2.6rem,6.4vw,4.6rem);line-height:1.04}
+.hero h1 mark{background:none;color:inherit;box-shadow:inset 0 -.32em 0 var(--geel)}
+.lead{font-size:clamp(1.1rem,1.8vw,1.4rem);line-height:1.4;max-width:30em;color:var(--zacht)}
+.vimobox{min-width:0}
+.vimobox svg{width:100%;height:auto;display:block}
+
+/* stelling */
+.stelling{background:var(--zwart);color:var(--wit)}
+.stelling .wrap{display:grid;gap:1rem 3rem;padding-block:clamp(2.2rem,5vw,3.5rem);grid-template-columns:minmax(0,1fr);align-items:center}
+@media(min-width:800px){.stelling .wrap{grid-template-columns:auto minmax(0,1fr)}}
+.stelling .getal{font-size:clamp(3.2rem,9vw,6rem);font-weight:700;line-height:1;white-space:nowrap}
+.stelling .getal b{color:var(--geel)}
+.stelling .getal small{font-size:.32em;font-weight:400;color:#cfcfc9;display:block;margin-top:.4rem}
+.stelling p{font-size:clamp(1.05rem,1.6vw,1.3rem);max-width:38em;color:#e8e8e3}
+
+/* secties */
+section.blok{padding-block:clamp(3rem,7vw,5.5rem)}
+.eyebrow{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:.95rem;color:var(--zacht);margin-bottom:.8rem}
+.eyebrow img{width:34px}
+.blok h2{font-size:clamp(2.2rem,5vw,3.5rem);line-height:1.08}
+.blok .intro{font-size:clamp(1.1rem,1.7vw,1.35rem);line-height:1.45;margin-top:.9rem;max-width:34em;color:var(--zacht)}
+.duo{display:grid;gap:clamp(1.5rem,4vw,3.5rem);grid-template-columns:minmax(0,1fr);align-items:center}
+@media(min-width:900px){.duo{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}.duo.om>:first-child{order:2}}
+.beeld{border-radius:1.4rem;padding:clamp(1rem,3vw,2rem);display:grid;place-items:center;min-height:16rem}
+.beeld.blauw{background:var(--podium)}
+.beeld.lila{background:#ece4ec}
+.beeld.groen{background:#eef4e2}
+:root[data-theme="dark"] .beeld.lila,:root[data-theme="dark"] .beeld.groen{background:var(--paneel)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .beeld.lila,:root:not([data-theme="light"]) .beeld.groen{background:var(--paneel)}}
+.beeld img{max-height:26rem;width:auto}
+.feiten{list-style:none;margin:1.8rem 0 0;padding:0;display:grid;gap:1.4rem 1.6rem;grid-template-columns:minmax(0,1fr)}
+@media(min-width:620px){.feiten{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.feiten li{border-top:6px solid var(--c,var(--geel));padding-top:.8rem;min-width:0}
+.feiten h3{font-size:1.15rem;margin-bottom:.3rem}
+.feiten p{color:var(--zacht)}
+.demoknop{margin-top:1.8rem}
+
+
+/* agili 3D */
+.agili3d{display:grid;gap:.8rem;min-width:0}
+.podium3d{position:relative;aspect-ratio:4/3.2;border-radius:1.4rem;background:var(--podium);overflow:hidden}
+#agiliStage{position:absolute;inset:0}
+.laden3d{position:absolute;inset:0;display:grid;place-items:center;color:var(--zacht)}
+.uitlees3d{position:absolute;right:.9rem;top:.9rem;background:var(--wit);color:#1e1e1e;border-radius:999px;padding:.35rem .9rem;font-weight:700;font-size:.95rem}
+.standknoppen{display:flex;flex-wrap:wrap;gap:.45rem}
+.standknoppen button{border:2px solid var(--fg);background:transparent;color:var(--fg);border-radius:999px;padding:.5rem 1rem;cursor:pointer;font-weight:700}
+.standknoppen button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.standknoppen .alles{border-color:var(--geel);background:var(--geel);color:#1e1e1e}
+.demo .plaat img.foto{width:100%;height:100%;object-fit:cover}
+/* agili standen */
+.standen{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem;width:100%}
+.stand{background:var(--bg);border-radius:1rem;padding:1rem;display:grid;gap:.5rem;justify-items:center;text-align:center}
+.stand svg{width:100%;max-width:170px;height:auto}
+.stand b{font-size:1rem}
+.stand span{font-size:.85rem;color:var(--zacht)}
+
+/* digitaal */
+.digi{margin-top:2.5rem;background:var(--zwart);color:var(--wit);border-radius:1.4rem;padding:clamp(1.4rem,4vw,2.5rem);display:grid;gap:1.4rem;grid-template-columns:minmax(0,1fr)}
+@media(min-width:860px){.digi{grid-template-columns:minmax(0,3fr) minmax(0,2fr);align-items:center}}
+.digi h3{font-size:clamp(1.5rem,3vw,2.1rem)}
+.digi p{color:#dcdcd6;margin-top:.6rem;max-width:36em}
+.gynzy{background:var(--wit);color:var(--zwart);border-radius:1rem;padding:1.1rem 1.2rem;display:grid;gap:.7rem}
+.gynzy img{width:130px}
+.gynzy p{color:#4a4a46;margin:0}
+
+/* set */
+.set{margin-top:2.5rem;display:grid;gap:1.4rem;grid-template-columns:minmax(0,1fr)}
+@media(min-width:860px){.set{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}}
+.starter{background:var(--geel);color:var(--zwart);border-radius:1.4rem;padding:1.4rem 1.5rem;display:grid;gap:.5rem;align-content:start}
+.starter h3{font-size:1.4rem}
+.specs{margin:0;display:grid;border-top:2px solid var(--fg)}
+.specs div{display:grid;grid-template-columns:minmax(0,1fr);gap:.1rem;padding:.75rem 0;border-bottom:1px solid var(--lijn)}
+@media(min-width:560px){.specs div{grid-template-columns:minmax(0,12rem) minmax(0,1fr);gap:1rem}}
+.specs dt{font-weight:700}
+.specs dd{margin:0;color:var(--zacht)}
+
+/* demolaag */
+.demolaag{background:var(--paneel)}
+.demos{margin-top:2rem;display:grid;gap:1rem;grid-template-columns:minmax(0,1fr)}
+@media(min-width:760px){.demos{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.demo{background:var(--bg);border:0;border-radius:1.4rem;padding:0;text-align:left;cursor:pointer;color:inherit;display:grid;grid-template-rows:auto 1fr;overflow:hidden;transition:transform .2s}
+.demo:hover{transform:translateY(-3px)}
+.demo .plaat{aspect-ratio:16/10;display:grid;place-items:center;background:var(--podium);position:relative}
+.demo .plaat svg{width:70%;height:auto}
+.demo .plaat img{width:58%;height:auto}
+.demo .label{position:absolute;left:.8rem;top:.8rem;background:var(--zwart);color:var(--wit);border-radius:999px;font-size:.8rem;padding:.25rem .7rem}
+.demo .tk{padding:1.1rem 1.2rem 1.3rem;display:grid;gap:.4rem;align-content:start}
+.demo h3{font-size:1.3rem}
+.demo p{color:var(--zacht)}
+.demo .open{margin-top:.5rem;font-weight:700;display:inline-flex;align-items:center;gap:.4rem}
+.demo .open i{display:inline-block;width:1.8rem;height:1.8rem;border-radius:50%;background:var(--geel);color:var(--zwart);font-style:normal;text-align:center;line-height:1.8rem}
+
+/* beweegpauze */
+.pauze .duo{align-items:center}
+.pauzebox{background:var(--podium);border-radius:1.4rem;overflow:hidden}
+.pauzebox svg{width:100%;height:auto;display:block}
+.bewegingen{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.4rem}
+.bewegingen button{border:2px solid var(--fg);background:transparent;color:var(--fg);border-radius:999px;padding:.55rem 1rem;cursor:pointer;font-weight:700}
+.bewegingen button[aria-pressed="true"]{background:var(--geel);border-color:var(--geel);color:var(--zwart)}
+.bewegingen .rnd{background:var(--fg);color:var(--bg)}
+
+/* contact */
+.contact{background:var(--zwart);color:var(--wit)}
+.contact .wrap{display:grid;gap:2rem;padding-block:clamp(3rem,7vw,5rem);grid-template-columns:minmax(0,1fr);align-items:center}
+@media(min-width:860px){.contact .wrap{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}}
+.contact h2{font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.06}
+.contact h2 b{color:var(--geel)}
+.contact .lead{color:#d9d9d3;margin-top:1rem}
+.kaart{background:var(--wit);color:var(--zwart);border-radius:1.4rem;padding:clamp(1.2rem,3vw,1.8rem);display:grid;gap:1rem;border-top:10px solid var(--geel)}
+.kaart .naam{font-size:1.4rem;font-weight:700}
+.kaart .kaartlogo{max-height:3rem;width:auto}
+.rij{display:grid;gap:.15rem;min-width:0}
+.rij .k{font-size:.85rem;color:#5a5a55}
+.rij .w{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap}
+.rij .v{font-weight:700;font-size:1.15rem;overflow-wrap:anywhere;user-select:all}
+.kopie{border:1.5px solid #1e1e1e;background:transparent;border-radius:999px;padding:.2rem .7rem;font-size:.8rem;cursor:pointer;color:#1e1e1e}
+.melding{min-height:1.3em;font-size:.9rem;color:#3d5f12;font-weight:700}
+.samen{font-size:.9rem;color:#5a5a55;border-top:1px solid rgba(30,30,30,.12);padding-top:.8rem}
+.voet{background:var(--zwart);color:#bdbdb6;border-top:1px solid rgba(255,255,255,.1)}
+.voet .wrap{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;padding-block:1.2rem;font-size:.9rem}
+.voet img.s{width:34px}
+.voet a{color:var(--wit);text-decoration:none;font-weight:700}
+
+/* demo-venster */
+.venster{position:fixed;inset:0;z-index:50;background:var(--zwart);display:grid;grid-template-rows:auto auto 1fr}
+.venster .balk{display:flex;align-items:center;gap:.8rem;color:var(--wit);padding:.6rem max(12px,env(safe-area-inset-right,0px)) .6rem max(12px,env(safe-area-inset-left,0px));padding-top:calc(.6rem + env(safe-area-inset-top,0px))}
+.venster .balk img.l{width:110px}
+.venster .balk b{font-size:1.05rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.venster .balk .ruimte{flex:1}
+.venster .tip{display:flex;align-items:center;gap:.7rem;background:var(--geel);color:var(--zwart);padding:.45rem max(12px,env(safe-area-inset-left,0px));font-size:.95rem}
+.venster .tip .mini{width:2.4rem;height:2.4rem;flex:none}
+.venster iframe{width:100%;height:100%;border:0;background:#fff}
+.venster .laden{position:absolute;inset:auto 0 40% 0;text-align:center;color:#aaa;pointer-events:none}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+
+<header class="kop">
+  <div class="wrap">
+    <img class="logo" src="img/logo-geel-wit.png" alt="Vanerum" width="3750" height="398">
+    <img class="streep" src="img/streepjes-klein.png" alt="" width="50" height="24">
+    <span class="sep" aria-hidden="true"></span>
+    <span class="titel">Bewegend leren</span>
+    <nav aria-label="Onderdelen">
+      <button class="lnk" data-naar="agili">Agili</button>
+      <button class="lnk" data-naar="cubes">Motion Cubes</button>
+      <button class="lnk" data-naar="probeer">Probeer het zelf</button>
+      <button class="lnk" data-naar="contact">Contact</button>
+      <button class="pres" id="presKnop" aria-pressed="false" title="Groot op het digibord of scherm">Presentatie</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" aria-labelledby="h1">
+    <div class="wrap">
+      <div class="tekst">
+        <span class="dealerchip" id="dealerChip"><span class="v">V</span><span id="dealerChipTekst">Vanerum Nederland</span></span>
+        <h1 id="h1">Laat uw klas <mark>bewegen</mark> tijdens het leren</h1>
+        <p class="lead">De Agili-tafel en de Motion Cubes maken van elk lokaal een plek waar leerlingen zitten, staan, samenwerken en met hun lijf antwoorden. Vimo laat zien hoe dat werkt.</p>
+        <div class="knoppen">
+          <button class="btn geel" data-naar="agili">Ontdek de producten</button>
+          <button class="btn" data-naar="probeer">Probeer het zelf</button>
+        </div>
+      </div>
+      <div class="vimobox"><svg id="heroVimo" role="img" aria-label="Vimo, de mascotte van Vanerum, zwaait naar u"></svg></div>
+    </div>
+  </section>
+
+  <section class="stelling" aria-label="Waarom bewegen">
+    <div class="wrap">
+      <p class="getal"><b>30</b> + <b>3</b><small>minuten luisteren + minuten bewegen</small></p>
+      <p>Na een halfuur luisteren zakt de aandacht weg. Neuropsycholoog Erik Scherder adviseert daarom: laat leerlingen na 30 minuten 3 minuten bewegen. Met meubilair dat meebeweegt, wordt dat een vast onderdeel van de les in plaats van een onderbreking.</p>
+    </div>
+  </section>
+
+  <section class="blok" id="agili" aria-labelledby="hAgili">
+    <div class="wrap duo">
+      <div>
+        <p class="eyebrow"><img src="img/streepjes-klein.png" alt="" width="50" height="24">Werktafel</p>
+        <h2 id="hAgili">Agili</h2>
+        <p class="intro">De werktafel die meebeweegt met uw les. Leerlingen rijden ermee, klappen hem in, kiezen hun hoogte en kantelen het werkblad.</p>
+        <ul class="feiten">
+          <li style="--c:var(--geel)"><h3>Rijden en inklappen</h3><p>Kring, groepjes, rijen of alles aan de kant. Ingeklapt nemen de tafels weinig ruimte in.</p></li>
+          <li style="--c:var(--blauw)"><h3>Zitten of staan</h3><p>Elke leerling kiest de eigen hoogte. Het kantelbare blad zorgt voor een betere werkhouding.</p></li>
+          <li style="--c:var(--lila)"><h3>Alles blijft liggen</h3><p>De hoes houdt spullen vast. Verrijd de tafel gerust, zelfs een laptop schuift niet weg.</p></li>
+          <li style="--c:var(--groen)"><h3>Snel wisselen</h3><p>Van instructie naar groepswerk in een minuut, zonder dat de les stilvalt.</p></li>
+        </ul>
+        <div class="knoppen demoknop"><button class="btn geel" data-demo="product">Bekijk de productpagina</button><button class="btn" data-demo="agili">Zet zelf opstellingen neer</button></div>
+      </div>
+      <div class="agili3d">
+        <div class="podium3d"><div id="agiliStage" aria-label="3D-model van de Agili-tafel"></div><p class="laden3d" id="agiliLaden">Tafel laden…</p><p class="uitlees3d" id="agiliUit">Bladhoogte 106 cm</p></div>
+        <div class="standknoppen" id="standKnoppen" role="group" aria-label="Kies een stand">
+          <button type="button" data-stand="zit" aria-pressed="false">Zitten</button>
+          <button type="button" data-stand="sta" aria-pressed="true">Staan</button>
+          <button type="button" data-stand="kantel" aria-pressed="false">Kantelen</button>
+          <button type="button" data-stand="in" aria-pressed="false">Inklappen</button>
+          <button type="button" data-stand="alles" class="alles">Alle standen</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok" id="cubes" aria-labelledby="hCubes" style="padding-top:0">
+    <div class="wrap">
+      <div class="duo om">
+        <div>
+          <p class="eyebrow"><img src="img/streepjes-klein.png" alt="" width="50" height="24">Bewegen, zitten, antwoorden</p>
+          <h2 id="hCubes">Motion Cubes</h2>
+          <p class="intro">Lichte kubussen met kleuren en symbolen. Leerlingen gebruiken ze bij rekenen, taal of wereldoriëntatie, en ze zijn ook een actieve zitplek.</p>
+          <ul class="feiten">
+            <li style="--c:var(--geel)"><h3>Antwoorden met je lijf</h3><p>Elke zijde is een antwoord. Leerlingen draaien de kubus naar hun keuze en gaan erop staan.</p></li>
+            <li style="--c:var(--blauw)"><h3>Samen opdrachten oplossen</h3><p>Alleen of in groepjes. Zo oefenen ze samenwerken en problemen oplossen.</p></li>
+            <li style="--c:var(--lila)"><h3>Balans en bouwen</h3><p>Stapelen, een parcours uitzetten of bouwwerken nabouwen. Er zijn 40 bouwvoorbeelden.</p></li>
+            <li style="--c:var(--groen)"><h3>Meer dan 100 activiteiten</h3><p>Een map met kant-en-klare werkvormen, zodat de leerkracht direct kan beginnen.</p></li>
+          </ul>
+          <button class="btn geel demoknop" data-demo="cube">Open het Motion Cube Lab</button>
+        </div>
+        <div class="beeld lila" style="padding:0;overflow:hidden"><img src="img/motion-lab.jpg" alt="Leerlingen in een kring op Motion Cubes, uit het Motion Cube Lab" width="800" height="500" loading="lazy" style="width:100%;max-height:none"></div>
+      </div>
+
+      <div class="digi">
+        <div>
+          <h3>Analoog of digitaal, de school kiest</h3>
+          <p>Voor de kubussen is geen scherm nodig. Wilt u wel meteen zien wat de hele klas antwoordt? Klik dan een Motion Detection Module in de sleuf van de kubus. Die registreert draadloos welke kant boven ligt, voor tot 64 kubussen tegelijk.</p>
+        </div>
+        <div class="gynzy">
+          <img src="img/gynzy.webp" alt="Gynzy" width="480" height="145" loading="lazy">
+          <p>Het digitale deel werkt samen met Gynzy. Quizzen en groepsopdrachten worden zo een spel waar de hele klas aan meedoet.</p>
+        </div>
+      </div>
+
+      <div class="set">
+        <div class="starter">
+          <h3>Starterspakket</h3>
+          <p>4 Motion Cubes, 4 Motion Detection Modules en een ontvanger. Alles om direct digitaal te beginnen.</p>
+        </div>
+        <dl class="specs">
+          <div><dt>Motion Cubes</dt><dd>Los, of per 4, 12, 24 of 32</dd></div>
+          <div><dt>Motion Detection Module</dt><dd>Los, of per 4, 8 of 12 met ontvanger</dd></div>
+          <div><dt>Altijd inbegrepen</dt><dd>Stickers, oefenboek en bouwkaarten</dd></div>
+          <div><dt>Gewicht</dt><dd>1,9 kg per kubus</dd></div>
+          <div><dt>Garantie</dt><dd>3 jaar</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok demolaag" id="probeer" aria-labelledby="hProbeer">
+    <div class="wrap">
+      <p class="eyebrow"><img src="img/streepjes-klein.png" alt="" width="50" height="24">Demo's</p>
+      <h2 id="hProbeer">Probeer het zelf</h2>
+      <p class="intro">Drie demo's die u samen met de school op een digibord, laptop of tablet doorloopt. Ze openen schermvullend; met Terug komt u hier weer uit.</p>
+      <div class="demos">
+        <button class="demo" data-demo="cube">
+          <span class="plaat"><span class="label">3D met leerlingen</span><img class="foto" src="img/motion-lab.jpg" alt="" width="1280" height="800" loading="lazy"></span>
+          <span class="tk"><h3>Motion Cube Lab</h3><p>Bekijk de kubus in 3D, kies een opstelling met leerlingen, speel het draaispel en bouw met meerdere kubussen.</p><span class="open"><i>›</i> Open demo</span></span>
+        </button>
+        <button class="demo" data-demo="agili">
+          <span class="plaat"><span class="label">Opstellingen</span><img class="foto" src="img/agili-lab.jpg" alt="" width="1280" height="800" loading="lazy"></span>
+          <span class="tk"><h3>Agili Lab</h3><p>Bekijk de vier standen en richt een lokaal in: kring, groepjes of rijen.</p><span class="open"><i>›</i> Open demo</span></span>
+        </button>
+        <button class="demo" data-demo="missies">
+          <span class="plaat"><span class="label">Met Vimo</span><img id="thumbMissie" alt="" width="300" height="300"></span>
+          <span class="tk"><h3>Motion Missions</h3><p>Opdrachtkaarten voor de klas: zoeken, dobbelen en een les samenstellen. Vimo doet de houdingen voor.</p><span class="open"><i>›</i> Open demo</span></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok pauze" id="pauze" aria-labelledby="hPauze">
+    <div class="wrap duo">
+      <div>
+        <p class="eyebrow"><img src="img/streepjes-klein.png" alt="" width="50" height="24">Beweegpauze</p>
+        <h2 id="hPauze">Drie minuten bewegen met Vimo</h2>
+        <p class="intro">Vimo is de mascotte van Vanerum: de V uit ons logo, in beweging. Kies een beweging en doe mee, of laat Vimo een korte pauze leiden.</p>
+        <div class="bewegingen" id="bewegingen"></div>
+      </div>
+      <div class="pauzebox"><svg id="pauzeVimo" role="img" aria-label="Vimo doet een beweging voor"></svg></div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="hContact">
+    <div class="wrap">
+      <div>
+        <h2 id="hContact">Zien hoe het <b>in uw lokaal</b> werkt?</h2>
+        <p class="lead" id="contactLead">We komen graag langs met de Agili en een set Motion Cubes, zodat leerkrachten en leerlingen het zelf kunnen proberen.</p>
+      </div>
+      <div class="kaart" id="kaart" aria-live="polite"></div>
+    </div>
+  </section>
+</main>
+
+<footer class="voet">
+  <div class="wrap">
+    <img class="s" src="img/streepjes-klein.png" alt="" width="50" height="24">
+    <a href="https://www.vanerum.nl" target="_blank" rel="noopener">vanerum.nl</a>
+    <span>Vanerum, onderdeel van i3-Group. Meubilair uit eigen fabriek in België.</span>
+  </div>
+</footer>
+
+<div class="venster" id="venster" hidden role="dialog" aria-modal="true" aria-labelledby="vensterTitel">
+  <div class="balk">
+    <img class="l" src="img/logo-geel-wit.png" alt="Vanerum" width="3750" height="398">
+    <b id="vensterTitel">Demo</b>
+    <span class="ruimte"></span>
+    <button class="btn geel" id="terug">Terug</button>
+  </div>
+  <div class="tip"><svg class="mini" id="tipVimo" viewBox="0 0 300 300" aria-hidden="true"></svg><span id="tipTekst"></span></div>
+  <iframe id="frame" title="Demo" allow="fullscreen"></iframe>
+</div>
+
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"}}</script>
+<script type="module">
+import { mountAgili, heightCm, TILT_MAX } from './agili3d.js';
+const box = document.getElementById('standKnoppen'), uit = document.getElementById('agiliUit');
+const STANDEN = { zit: { h: 0, tilt: 0 }, sta: { h: 1, tilt: 0 }, kantel: { h: 1, tilt: TILT_MAX }, in: { h: 1, tilt: 90 } };
+const label = s => `Bladhoogte ${heightCm(s.h)} cm${s.tilt >= 89 ? ' · ingeklapt' : s.tilt > .5 ? ' · gekanteld' : ''}`;
+try {
+  const a = await mountAgili(document.getElementById('agiliStage'), { modelUrl: 'agili-model.txt', zoom: false });
+  document.getElementById('agiliLaden').remove();
+  box.addEventListener('click', e => {
+    const b = e.target.closest('[data-stand]'); if (!b) return; const k = b.dataset.stand;
+    box.querySelectorAll('[data-stand]').forEach(x => x.setAttribute('aria-pressed', String(x === b && k !== 'alles')));
+    if (k === 'alles') { a.showAll((n, s) => { uit.textContent = n + ' · ' + heightCm(s.h) + ' cm'; }); return; }
+    a.go(STANDEN[k]); uit.textContent = label(STANDEN[k]);
+  });
+} catch (e) { document.getElementById('agiliLaden').textContent = 'Het 3D-model kon niet geladen worden.'; console.error(e); }
+</script>
+<script src="vimo2d.js"></script>
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){return document.querySelector(s)};
+
+  /* ---------- dealer ---------- */
+  var FALLBACK = {vanerum:{naam:"Vanerum Nederland",telefoon:"+31 (0)30 212 20 10",email:"info@vanerum.nl",website:"https://www.vanerum.nl",adres:"Edisonweg 1A, 3404 LA IJsselstein",welkom:"Welkom! Ik ben Vimo."}};
+  var DEALERS = FALLBACK, dealer = FALLBACK.vanerum, isDealer = false;
+
+  function sleutel(){ var h=(location.hash||"").slice(1).toLowerCase(); return /^[a-z0-9-]{1,40}$/.test(h)?h:""; }
+  function tekst(el,t){ el.textContent=t; return el; }
+  function maak(tag,cls,t){ var e=document.createElement(tag); if(cls)e.className=cls; if(t!=null)e.textContent=t; return e; }
+
+  function kopieerRij(label, waarde){
+    var r=maak("div","rij"); r.appendChild(maak("span","k",label));
+    var w=maak("div","w"); w.appendChild(maak("span","v",waarde));
+    var b=maak("button","kopie","Kopieer"); b.type="button";
+    b.addEventListener("click",function(){
+      var ok=function(){ $("#melding").textContent=label+" gekopieerd."; };
+      try{ navigator.clipboard.writeText(waarde).then(ok,function(){selecteer(w)}); }catch(e){ selecteer(w); }
+    });
+    w.appendChild(b); r.appendChild(w); return r;
+  }
+  function selecteer(w){ try{ var s=getSelection(),r=document.createRange(); r.selectNodeContents(w.firstChild); s.removeAllRanges(); s.addRange(r); $("#melding").textContent="Geselecteerd: kopieer met Ctrl+C."; }catch(e){} }
+
+  function toonDealer(){
+    var k=sleutel();
+    isDealer = !!(k && k!=="vanerum" && DEALERS[k]);
+    dealer = isDealer ? DEALERS[k] : (DEALERS.vanerum||FALLBACK.vanerum);
+    /* chip */
+    var chip=$("#dealerChip"); chip.innerHTML="";
+    if(isDealer && dealer.logo){ var li=new Image(); li.src=dealer.logo; li.alt=""; chip.appendChild(li); }
+    else chip.appendChild(maak("span","v","V"));
+    chip.appendChild(maak("span","",isDealer ? "Uw adviseur: "+dealer.naam : "Vanerum Nederland"));
+    /* kaart */
+    var kaart=$("#kaart"); kaart.innerHTML="";
+    if(dealer.logo){ var lg=new Image(); lg.src=dealer.logo; lg.alt=dealer.naam; lg.className="kaartlogo"; kaart.appendChild(lg); }
+    kaart.appendChild(maak("div","naam",dealer.naam));
+    if(dealer.contactpersoon) kaart.appendChild(kopieerRij("Contactpersoon",dealer.contactpersoon));
+    if(dealer.telefoon) kaart.appendChild(kopieerRij("Telefoon",dealer.telefoon));
+    if(dealer.email) kaart.appendChild(kopieerRij("E-mail",dealer.email));
+    if(dealer.adres){ var r=maak("div","rij"); r.appendChild(maak("span","k","Adres")); r.appendChild(maak("span","v",dealer.adres)); kaart.appendChild(r); }
+    if(dealer.website){ var a=maak("a","btn geel","Naar de website"); a.href=dealer.website; a.target="_blank"; a.rel="noopener"; a.style.justifySelf="start"; kaart.appendChild(a); }
+    var m=maak("p","melding",""); m.id="melding"; m.setAttribute("aria-live","polite"); kaart.appendChild(m);
+    if(isDealer) kaart.appendChild(maak("p","samen",dealer.naam+" adviseert en levert, Vanerum maakt het meubilair in de eigen fabriek in België."));
+    $("#contactLead").textContent = isDealer
+      ? dealer.naam+" komt graag langs met de Agili en een set Motion Cubes, zodat leerkrachten en leerlingen het zelf kunnen proberen."
+      : "We komen graag langs met de Agili en een set Motion Cubes, zodat leerkrachten en leerlingen het zelf kunnen proberen.";
+    document.title = isDealer ? "Agili en Motion Cubes · "+dealer.naam : "Agili en Motion Cubes";
+    if(hero) hero.play("hoi", korteWelkom());
+  }
+  function korteWelkom(){ return isDealer ? "Hoi! Welkom namens "+dealer.naam : "Hoi! Ik ben Vimo"; }
+
+  fetch("dealers.json").then(function(r){return r.json()}).then(function(d){ DEALERS=d; toonDealer(); }).catch(function(){ toonDealer(); });
+  addEventListener("hashchange",toonDealer);
+
+  /* ---------- navigatie zonder de hash te gebruiken (die bewaart de dealer) ---------- */
+  document.querySelectorAll("[data-naar]").forEach(function(b){
+    b.addEventListener("click",function(){ var t=document.getElementById(b.dataset.naar); if(t) t.scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"}); });
+  });
+
+  /* ---------- Vimo ---------- */
+  var hero=null, pauze=null, tip=null;
+  if(window.Vimo2D){
+    var mob = innerWidth<600;
+    hero = new Vimo2D.Player($("#heroVimo"),{width:800,height:470,home:{x:290,g:450},scale:1.12,cube:{cx:610,ground:450,s:180},fontSize:mob?30:24});
+    hero.sequence([{move:"hoi",text:"Hoi! Ik ben Vimo"},{move:"wijzen",text:"Kom, ik laat het zien!"},{move:"springen",text:""}]);
+    $("#heroVimo").addEventListener("click",function(){ var ms=hero.moves; hero.play(ms[Math.floor(Math.random()*ms.length)],""); });
+
+    pauze = new Vimo2D.Player($("#pauzeVimo"),{width:800,height:500,home:{x:330,g:460},scale:.95,cube:{cx:620,ground:460,s:150},fontSize:24});
+    var NAMEN={hoi:"Zwaaien",wijzen:"Wijzen",springen:"Springen",knieen:"Knieën buigen",balans:"Balans",draaien:"Draaien",kubus:"Op de kubus"};
+    var box=$("#bewegingen");
+    pauze.moves.forEach(function(n){
+      var b=maak("button","",NAMEN[n]||(n.charAt(0).toUpperCase()+n.slice(1).replace(/-/g," "))); b.type="button"; b.setAttribute("aria-pressed","false");
+      b.addEventListener("click",function(){ box.querySelectorAll("button").forEach(function(x){x.setAttribute("aria-pressed","false")}); b.setAttribute("aria-pressed","true"); pauze.play(n,""); });
+      box.appendChild(b);
+    });
+    var rnd=maak("button","rnd","Start beweegpauze"); rnd.type="button";
+    rnd.addEventListener("click",function(){
+      var ms=pauze.moves.filter(function(n){return n!=="hoi"&&n!=="wijzen"}), reeks=[{move:"hoi",text:"Daar gaan we!"}];
+      for(var i=0;i<5;i++){ var n=ms[Math.floor(Math.random()*ms.length)]; reeks.push({move:n,text:NAMEN[n]||n}); }
+      reeks.push({move:"hoi",text:"Goed gedaan!"});
+      pauze.sequence(reeks);
+    });
+    box.appendChild(rnd);
+
+    /* plaatjes */
+    try{ $("#thumbMissie").src = Vimo2D.poseURI("staan-op"); }catch(e){}
+  }
+
+  /* ---------- demo-venster ---------- */
+  var DEMOS={
+    cube:{titel:"Motion Cube Lab",src:"demo/motion-cube-lab.html",tip:"Kies bovenin wat u wilt doen: bekijken, een opstelling met leerlingen, het draaispel of bouwen.",pose:"ernaast-staan"},
+    product:{titel:"Agili",src:"product-agili.html",tip:"Kies een stand, een bladkleur en een onderstel. Met de gele knop opent u de demo.",pose:"erachter-staan"},
+    agili:{titel:"Agili Lab",src:"demo/agili-lab.html",tip:"Kies een stand of een opstelling en kijk hoe het lokaal verandert.",pose:"erachter-staan"},
+    missies:{titel:"Motion Missions",src:"demo/motion-missions.html",tip:"Zoek een opdracht of gooi de dobbelsteen. Ik doe de houding voor!",pose:"boven-hoofd"}
+  };
+  var venster=$("#venster"), frame=$("#frame"), laatste=null;
+  function openDemo(k){
+    var d=DEMOS[k]; if(!d) return; if(venster.hidden) laatste=document.activeElement;
+    $("#vensterTitel").textContent=d.titel; $("#tipTekst").textContent=d.tip;
+    var t=$("#tipVimo"); t.innerHTML="";
+    if(window.Vimo2D){ try{ var img=document.createElementNS("http://www.w3.org/2000/svg","image"); img.setAttribute("href",Vimo2D.poseURI(d.pose)); img.setAttribute("width","300"); img.setAttribute("height","300"); t.appendChild(img);}catch(e){} }
+    if(frame.getAttribute("src")!==d.src) frame.setAttribute("src",d.src);
+    venster.hidden=false; document.body.style.overflow="hidden"; $("#terug").focus();
+  }
+  function sluit(){ venster.hidden=true; document.body.style.overflow=""; if(laatste) laatste.focus(); }
+  document.querySelectorAll("[data-demo]").forEach(function(b){ b.addEventListener("click",function(){ openDemo(b.dataset.demo); }); });
+  $("#terug").addEventListener("click",sluit);
+  addEventListener("message",function(e){ var d=e.data; if(d&&d.src==="vanerum-dealer"&&d.type==="demo"&&DEMOS[d.key]) openDemo(d.key); });
+  addEventListener("keydown",function(e){ if(e.key==="Escape" && !venster.hidden) sluit(); });
+
+  /* ---------- presentatiemodus ---------- */
+  var pk=$("#presKnop");
+  pk.addEventListener("click",function(){
+    var aan=!document.documentElement.classList.contains("presentatie");
+    document.documentElement.classList.toggle("presentatie",aan); pk.setAttribute("aria-pressed",String(aan));
+    try{ if(aan && document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(function(){}); else if(!aan && document.fullscreenElement) document.exitFullscreen().catch(function(){}); }catch(e){}
+  });
+})();
+</script>
+
+</body>
+</html>

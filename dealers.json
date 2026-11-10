@@ -1,0 +1,23 @@
+{
+  "_uitleg": "Eén blok per dealer. De sleutel (bijv. 'voorbeeld') zet je achter de link: .../artifact/...#voorbeeld. Zonder sleutel toont de site Vanerum zelf als contact.",
+  "vanerum": {
+    "naam": "Vanerum Nederland",
+    "contactpersoon": "",
+    "telefoon": "+31 (0)30 212 20 10",
+    "email": "info@vanerum.nl",
+    "website": "https://www.vanerum.nl",
+    "adres": "Edisonweg 1A, 3404 LA IJsselstein",
+    "logo": "",
+    "welkom": "Welkom! Ik ben Vimo. Ik laat u zien hoe uw klas in beweging komt."
+  },
+  "voorbeeld": {
+    "naam": "Voorbeeld Dealer B.V.",
+    "contactpersoon": "Jan Jansen (voorbeeld)",
+    "telefoon": "+31 (0)00 000 00 00",
+    "email": "info@voorbeelddealer.nl",
+    "website": "",
+    "adres": "Voorbeeldstraat 1, 1234 AB Voorbeeldstad",
+    "logo": "",
+    "welkom": "Welkom! Ik ben Vimo. Samen met Voorbeeld Dealer laat ik u zien hoe uw klas in beweging komt."
+  }
+}
